@@ -1,11 +1,12 @@
 const { Sequelize } = require('sequelize');
+const {DB, DB_USER,DB_PASS, DB_HOST , DB_DIALECT} = require('./_config')
 
-const connectDataBase = () => {
-    const sequelize = new Sequelize('urlstnr', 'postgres', 'root', {
-        host: 'localhost',
-        dialect: 'postgres'
-    });
-    
+const sequelize = new Sequelize(DB,DB_USER,DB_PASS,{
+    host: DB_HOST,
+    dialect: DB_DIALECT
+});
+
+const connectDataBase = () => {    
     sequelize.authenticate().then(()=>{
         console.log("database connected")
     }).catch((err)=>{
@@ -13,4 +14,4 @@ const connectDataBase = () => {
     })
 }
 
-module.exports=connectDataBase
+module.exports={connectDataBase , sequelize}
