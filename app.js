@@ -3,19 +3,19 @@ const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const database = require('./config/database')
+const {connectDataBase} = require('./config/database')
 
 //middlewares
 app.use(cors());
 app.use(helmet())
-app.use(morgan('common'))
+app.use(morgan('dev'))
+app.use(express.json())
+app.use(express.urlencoded({extended : false}))
 
 //database
-database()
+connectDataBase()
 
 //routes 
 app.use("/api", require("./routes/index"))
-
-
 
 module.exports=app;
