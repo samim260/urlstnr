@@ -6,6 +6,7 @@ router.route('/').get((req, res) => {
 })
 
 router.use('/user', require('./user'))
+router.use("/url", require('./url'))
 
 
 module.exports = router
