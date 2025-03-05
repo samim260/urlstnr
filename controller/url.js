@@ -35,4 +35,50 @@ const getAllUrl = async (req, res) => {
         errorResponse(res, "something went wrong", 500)
     }
 }
-module.exports = { shortenUrl, getAllUrl }
+const getUrlById = async (req, res) => {
+    const urlModal = db.Urls;
+    try {
+        const url = await urlModal.findByPk(req.params.id)
+        if (!url) {
+            return errorResponse(res, "no url with this id found", 404)
+        }
+        successResponse(res, "url found", 200, url)
+    } catch (error) {
+        errorResponse(res, "something went wrong", 500)
+    }
+}
+const updateUrlById = async (req, res) => {
+    const urlModal = db.Urls;
+    try {
+        const newUrl = req.body.url
+        if(!newUrl){
+            return errorResponse(res, "please provide a valid url", 400)
+        }
+        const updatedData = await urlModal.update(
+            { url: newUrl},
+            { where: { id: req.params.id }, returning : true }
+        )
+        successResponse(res, "url updated successfully", 200, updatedData[1])
+    } catch (error) {
+        errorResponse(res, "something went wrong", 500)
+    }
+}
+const deleteUrlById = async (req, res)=>{
+    const urlModal = db.Urls;
+    try {
+        const url = await urlModal.findOne({
+            where : {id : req.params.id}
+        })
+        if(!url){
+            return errorResponse(res, "no url found", 404);
+        }
+        await url.destroy();
+        successResponse(res, "url deleted successfully", 200)
+
+    } catch (error) {
+        console.log(error.message)
+        errorResponse(res, "something went wrong", 500)
+    }
+}
+
+module.exports = { shortenUrl, getAllUrl, getUrlById, updateUrlById, deleteUrlById}
