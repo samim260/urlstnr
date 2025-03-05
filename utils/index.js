@@ -15,7 +15,11 @@ const generateJwtToken = (data, exp = "1h") => {
     const token = jwt.sign(data, JWT_SECRET, { expiresIn: exp })
     return token;
 }
+const decodeJwtToken = (token) => {
+    const token_data = jwt.verify(token,JWT_SECRET)
+    return token_data
+}
 
 
 
-module.exports = { successResponse, errorResponse, isValidEmail, generateJwtToken }
+module.exports = { successResponse, errorResponse, isValidEmail, generateJwtToken, decodeJwtToken }

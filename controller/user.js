@@ -58,6 +58,8 @@ const login = async(req,res)=>{
         }
         const accessToken = generateJwtToken(payload);
         const refreshToken = generateJwtToken(payload,"240h");
+        user.refresh_token = refreshToken;
+        await user.save()
         successResponse(res,"login successful",200,{
             id : user.id,
             email : user.email,
