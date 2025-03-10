@@ -1,9 +1,10 @@
 const router = require("express").Router()
-const {shortenUrl, getAllUrl, getUrlById, updateUrlById, deleteUrlById} = require("../controller/url")
+const {shortenUrl, getAllUrl, getUrlById, updateUrlById, deleteUrlById, redirctToUrl} = require("../controller/url")
 const verifyUser = require('../middleware/verifyUser')
 
 router.route('/').post(verifyUser,shortenUrl).get(verifyUser,getAllUrl)
-router.route('/:id').get(verifyUser, getUrlById).patch(verifyUser,updateUrlById)
+router.route('/redirect/:id').get(redirctToUrl)
+router.route('/manage/:id').get(verifyUser, getUrlById).patch(verifyUser,updateUrlById)
 .delete(verifyUser, deleteUrlById)
 
 module.exports = router

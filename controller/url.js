@@ -76,9 +76,28 @@ const deleteUrlById = async (req, res)=>{
         successResponse(res, "url deleted successfully", 200)
 
     } catch (error) {
+        errorResponse(res, "something went wrong", 500)
+    }
+}
+const redirctToUrl = async(req,res)=>{
+    const urlModal = db.Urls;
+    try {
+        const url = await urlModal.findOne({
+            where : { id : req.params.id}
+        })
+        if(!url){
+            return errorResponse(res, "no url found", 404);
+        }
+        if(!redirctToUrl.startsWith("https://")){
+            redirectUrl = `https://${url.url}`
+        }
+        url.click+=1
+        url.save()
+        res.redirect(redirctToUrl);
+    } catch (error) {
         console.log(error.message)
         errorResponse(res, "something went wrong", 500)
     }
 }
 
-module.exports = { shortenUrl, getAllUrl, getUrlById, updateUrlById, deleteUrlById}
+module.exports = { shortenUrl, getAllUrl, getUrlById, updateUrlById, deleteUrlById, redirctToUrl}
