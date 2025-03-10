@@ -3,7 +3,8 @@ const {DB, DB_USER,DB_PASS, DB_HOST , DB_DIALECT} = require('./_config')
 
 const sequelize = new Sequelize(DB,DB_USER,DB_PASS,{
     host: DB_HOST,
-    dialect: DB_DIALECT
+    dialect: DB_DIALECT,
+    logging : false
 });
 
 const connectDataBase = () => {    
